@@ -44,6 +44,18 @@ nodes:
 - role: worker
 root@joaoferreira:~/Kind-Cluster#
 root@joaoferreira:~/Kind-Cluster# kind create cluster --config meu-primeiro-cluster.yaml
+
+root@joaoferreira:~/Kind-Cluster# kind get clusters
+kind
+root@joaoferreira:~/Kind-Cluster#
+
+root@joaoferreira:~/Kind-Cluster# kubectl get nodes
+NAME                 STATUS   ROLES           AGE   VERSION
+kind-control-plane   Ready    control-plane   54m   v1.31.2
+kind-worker          Ready    <none>          54m   v1.31.2
+kind-worker2         Ready    <none>          54m   v1.31.2
+kind-worker3         Ready    <none>          54m   v1.31.2
+root@joaoferreira:~/Kind-Cluster#
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Criação do Pod e validação:
 
