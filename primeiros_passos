@@ -32,7 +32,9 @@ echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 source ~/.bashrc
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-root@joaoferreira:~/Kind-Cluster# cat cluster.yaml
+Criação do Cluster:
+
+root@joaoferreira:~/Kind-Cluster# cat meu-primeiro-cluster.yaml
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -41,5 +43,41 @@ nodes:
 - role: worker
 - role: worker
 root@joaoferreira:~/Kind-Cluster#
-root@joaoferreira:~/Kind-Cluster# kind create cluster --config cluster.yaml
+root@joaoferreira:~/Kind-Cluster# kind create cluster --config meu-primeiro-cluster.yaml
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Criação do Pod e validação:
+
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind# cat pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: joaoferreira-ngixn-2
+  name: joaoferreira-ngixn-2
+spec:
+  containers:
+  - image: nginx
+    name: joaoferreira-ngixn-2
+    ports:
+    - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind#
+
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind# kubectl apply -f pod.yaml
+pod/joaoferreira-ngixn-2 created
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind#
+
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind# k get pods
+NAME                   READY   STATUS    RESTARTS   AGE
+giropops               1/1     Running   0          6d1h
+joaoferreira-ngixn-2   1/1     Running   0          77s
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind#
+
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind# kubectl exec -ti joaoferreira-ngixn-2 -- nginx -v
+nginx version: nginx/1.27.3
+root@vps54480:~/Descomplicando_Kubernetes/day-1/kind#
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
